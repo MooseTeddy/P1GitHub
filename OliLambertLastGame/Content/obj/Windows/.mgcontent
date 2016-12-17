@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/Sounds/Sunny.mp3</File>
+    <File>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/Sounds/CasqueOrange.mp3</File>
+    <File>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/Sounds/DeathCivic.mp3</File>
+    <File>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/Sounds/DeathGeoMetro.mp3</File>
+  </SourceFiles>
+</SourceFileCollection>

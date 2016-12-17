@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/Sounds/DeathGeoMetro.mp3</SourceFile>
+  <SourceTime>2016-12-01T15:04:47.5564494-05:00</SourceTime>
+  <DestFile>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/bin/Windows/Sounds/DeathGeoMetro.xnb</DestFile>
+  <DestTime>2016-12-16T20:17:49.093388-05:00</DestTime>
+  <Importer>Mp3Importer</Importer>
+  <ImporterTime>2016-03-30T02:36:08-04:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2016-03-30T02:36:08-04:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

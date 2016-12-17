@@ -1,6 +1,0 @@
-C:\Users\olila\Documents\GitHub\monogame-travail-1-MooseTeddy\P1GitHub\Formatif3\bin\Debug\Formatif3.exe.config
-C:\Users\olila\Documents\GitHub\monogame-travail-1-MooseTeddy\P1GitHub\Formatif3\bin\Debug\Formatif3.exe
-C:\Users\olila\Documents\GitHub\monogame-travail-1-MooseTeddy\P1GitHub\Formatif3\bin\Debug\Formatif3.pdb
-C:\Users\olila\Documents\GitHub\monogame-travail-1-MooseTeddy\P1GitHub\Formatif3\obj\Debug\Formatif3.csprojResolveAssemblyReference.cache
-C:\Users\olila\Documents\GitHub\monogame-travail-1-MooseTeddy\P1GitHub\Formatif3\obj\Debug\Formatif3.exe
-C:\Users\olila\Documents\GitHub\monogame-travail-1-MooseTeddy\P1GitHub\Formatif3\obj\Debug\Formatif3.pdb

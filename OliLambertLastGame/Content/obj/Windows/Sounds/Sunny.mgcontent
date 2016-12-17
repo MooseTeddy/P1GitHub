@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/Sounds/Sunny.mp3</SourceFile>
+  <SourceTime>2016-10-28T08:37:57.6669731-04:00</SourceTime>
+  <DestFile>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/bin/Windows/Sounds/Sunny.xnb</DestFile>
+  <DestTime>2016-12-10T20:20:05.4718824-05:00</DestTime>
+  <Importer>Mp3Importer</Importer>
+  <ImporterTime>2016-03-30T02:36:08-04:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2016-03-30T02:36:08-04:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>C:/Users/olila/Documents/GitHub/monogame-travail-1-MooseTeddy/P1GitHub/OliLambertLastGame/Content/bin/Windows/Sounds/Sunny.wma</string>
+  </BuildOutput>
+</PipelineBuildEvent>

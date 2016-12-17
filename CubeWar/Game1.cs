@@ -5,6 +5,9 @@ using System;
 
 namespace Game2
 {
+    /// <summary>
+    /// This is the main type for your game.
+    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -14,22 +17,18 @@ namespace Game2
         GameObject Gentil;
         GameObject[] Michant;
         GameObject[] Projectile2;
-        GameObject Projectile;
+        GameObject[] Projectile;
+        GameObject Explode;
         int NbMichant = 0;
         int NbProjectile2 = 0;
-        float temps;
-        float tempsFinal;
+        int NbProjectile = 0;
         public int MaxMichant = 5;
         public int MaxProjectile2 = 5;
-        Vector2 max;
-        GameObject Explode;
-
+        public int MaxProjectile = 5;
         Texture2D Back;
-        SpriteFont font;
-
-        Random rand = new Random();
-
-        public object Break { get; private set; }
+        SpriteFont Gg;
+        Random d = new Random();
+        float TimeOfDeath = 0;
 
         public Game1()
         {
@@ -37,39 +36,47 @@ namespace Game2
             Content.RootDirectory = "Content";
         }
 
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
         protected override void Initialize()
         {
-            this.graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
-            this.graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
-            this.graphics.ToggleFullScreen();
-            this.graphics.ApplyChanges();
-            this.Window.Position = new Point(0, 0);
+            // TODO: Add your initialization logic here
+            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            graphics.ToggleFullScreen();
+
+            Michant = new GameObject[MaxMichant];
+            Projectile2 = new GameObject[MaxProjectile2];
+            Projectile = new GameObject[MaxProjectile];
+
             base.Initialize();
         }
 
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
         protected override void LoadContent()
         {
+            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("Font");
+            Gg = Content.Load<SpriteFont>("Font");
             Back = Content.Load<Texture2D>("Back.png");
 
-            font = Content.Load<SpriteFont>("Font");
-
-            Fenetre = graphics.GraphicsDevice.Viewport.Bounds;
-            Fenetre.Width = graphics.GraphicsDevice.Viewport.Width;
-            Fenetre.Height = graphics.GraphicsDevice.Viewport.Height;
+            Fenetre.Height = graphics.GraphicsDevice.DisplayMode.Height;
+            Fenetre.Width = graphics.GraphicsDevice.DisplayMode.Width;
 
             Gentil = new GameObject();
             Gentil.Alive = true;
-            Gentil.vitesse = 15;
+            Gentil.vitesse = 10;
             Gentil.sprite = Content.Load<Texture2D>("Gentil.png");
-            Gentil.position = Gentil.sprite.Bounds;
-            Gentil.position.Offset((Fenetre.Width / 4), (Fenetre.Height / 4));
-
-            this.Michant = new GameObject[MaxMichant];
-            this.Projectile2 = new GameObject[MaxProjectile2];
-
+            Gentil.position.X = Fenetre.Width / 2;
+            Gentil.position.Y = Fenetre.Height / 2;
 
             for (int i = 0; i < Michant.Length; i++)
             {
@@ -77,72 +84,80 @@ namespace Game2
                 Michant[i].Alive = false;
                 Michant[i].sprite = Content.Load<Texture2D>("Michant.png");
                 Michant[i].vitesse = 10;
-                Michant[i].position = Michant[i].sprite.Bounds;
-                Michant[i].position.X = Fenetre.Width;
-                Michant[i].position.Y = Fenetre.Height;
-                Michant[i].direction.X = rand.Next(-10, 10);
-                Michant[i].direction.Y = rand.Next(-10, 10);
-            }
+                Michant[i].position.X = Fenetre.Width / 4;
+                Michant[i].position.Y = Fenetre.Height / 4;
+                Michant[i].direction.X = d.Next(-10, 10);
+                Michant[i].direction.Y = d.Next(-10, 10);
 
-            for (int i = 0; i < Projectile2.Length; i++)
-            {
                 Projectile2[i] = new GameObject();
-                Projectile2[i].Alive = false;
-                Projectile2[i].vitesse = 20;
-                Projectile2[i].position = Michant[i].position;
+                Projectile2[i].Alive = true;
                 Projectile2[i].sprite = Content.Load<Texture2D>("Projectile.png");
-                Projectile2[i].position = Projectile2[i].sprite.Bounds;
-            }
+                Projectile2[i].vitesse = 20;
+                Projectile2[i].position.X = Michant[i].position.X;
+                Projectile2[i].position.Y = Michant[i].position.Y;
 
-            Projectile = new GameObject();
-            Projectile.Alive = true;
-            Projectile.vitesse = 20;
-            Projectile.position = Gentil.position;
-            Projectile.sprite = Content.Load<Texture2D>("Projectile.png");
-            Projectile.position = Projectile.sprite.Bounds;
+                Projectile[i] = new GameObject();
+                Projectile[i].Alive = false;
+                Projectile[i].sprite = Content.Load<Texture2D>("Projectile.png");
+                Projectile[i].vitesse = 20;
+                Projectile[i].position.X = Gentil.position.X;
+                Projectile[i].position.Y = Gentil.position.Y;
+            }
 
             Explode = new GameObject();
+            Explode.Alive = false;
             Explode.sprite = Content.Load<Texture2D>("Explode.png");
+            Explode.vitesse = 0;
 
+
+            // TODO: use this.Content to load your game content here
         }
 
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// game-specific content.
+        /// </summary>
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
         }
 
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
                 Exit();
-            }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Keyboard.GetState().IsKeyDown(Keys.D) && Gentil.Alive == true)
             {
                 Gentil.position.X += Gentil.vitesse;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && Gentil.Alive == true)
+            {
+                Gentil.position.Y -= Gentil.vitesse;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A) && Gentil.Alive == true)
             {
                 Gentil.position.X -= Gentil.vitesse;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                Gentil.position.Y += Gentil.vitesse;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && Gentil.Alive == true)
             {
                 Gentil.position.Y -= Gentil.vitesse;
             }
 
-            temps += Convert.ToSingle(gameTime.ElapsedGameTime.TotalSeconds);
 
-            UpdateMichants(gameTime);
             UpdateGentil();
-            UpdateProjectile2(gameTime);
+            UpdateMichant();
             UpdateProjectile();
+            UpdateProjectile2();
             base.Update(gameTime);
+
         }
+            // TODO: Add your update logic here
 
         public void UpdateGentil()
         {
@@ -150,56 +165,23 @@ namespace Game2
             {
                 Gentil.position.X = Fenetre.Width - Gentil.position.Width;
             }
-
             if (Gentil.position.Y > Fenetre.Height - Gentil.position.Height)
             {
                 Gentil.position.Y = Fenetre.Height - Gentil.position.Height;
             }
-
             if (Gentil.position.X < 0)
             {
                 Gentil.position.X = 0;
             }
-
             if (Gentil.position.Y < 0)
             {
                 Gentil.position.Y = 0;
             }
+
         }
-        public void UpdateProjectile2(GameTime gameTime)
+        public void UpdateMichant()
         {
-            for (int i = 0; i < NbMichant; i++)
-            {
-                if (NbProjectile2 < gameTime.TotalGameTime.Seconds && NbProjectile2 < MaxProjectile2)
-                {
-                    Projectile2[i].Alive = true;
-                    NbProjectile2++;
-                }
-
-                if (Gentil.position.Intersects(Projectile2[i].position))
-                {
-                    tempsFinal = temps;
-                    Gentil.Alive = false;
-                }
-
-                Projectile2[i].position.Y += (int)Projectile2[i].vitesse;
-
-                if (Projectile2[i].Alive == false)
-                {
-                    Projectile2[i].Alive = true;
-                    Projectile2[i].position = Michant[i].position;
-                }
-
-                if (Michant[i].position.Y > max.X || Michant[i].position.Y < Fenetre.Top)
-                {
-                    Projectile2[i].Alive = false;
-                }
-
-            }
-        }
-        public void UpdateMichants(GameTime gameTime)
-        {
-            if (NbMichant < gameTime.TotalGameTime.Seconds && NbMichant < MaxMichant)
+            if (NbMichant < TimeOfDeath && NbMichant < MaxMichant)
             {
                 Michant[NbMichant].Alive = true;
                 Michant[NbMichant].position.X = 0;
@@ -208,118 +190,40 @@ namespace Game2
             }
             for (int i = 0; i < NbMichant; i++)
             {
-                if (Gentil.position.Intersects(Michant[i].position))
-                {
-                    tempsFinal = temps;
-                    Gentil.Alive = false;
-                }
-
-                Michant[i].position.X += (int)Michant[i].direction.X;
-                Michant[i].position.Y += (int)Michant[i].direction.Y;
-
-                if (Michant[i].Alive == false)
-                {
-                    Michant[i].Alive = true;
-
-                    Michant[i].position.X = Fenetre.Width / 2;
-                    Michant[i].position.Y = Fenetre.Height / 2;
-                }
-
-                if (Michant[i].position.Intersects(Projectile.position))
+                if (Michant[i].GetRect().Intersects(Projectile[i].GetRect()))
                 {
                     Michant[i].Alive = false;
                 }
-
-                max.X = Fenetre.Width - Michant[i].sprite.Width;
-                max.Y = Fenetre.Height - Michant[i].sprite.Height;
-
-                if (Michant[i].position.X > max.X || Michant[i].position.X < Fenetre.Left)
-                {
-                    Michant[i].direction.X = -(Michant[i].direction.X);
-                }
-                if (Michant[i].position.Y > max.X || Michant[i].position.Y < Fenetre.Top)
-                {
-                    Michant[i].direction.Y = -(Michant[i].direction.Y);
-                }
+                Michant[i].position.X += Michant[i].vitesse;
+                Michant[i].position.Y += Michant[i].vitesse;
 
             }
 
         }
         public void UpdateProjectile()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                if (Gentil.Alive == true)
-                {
-                    Projectile.position = Gentil.position;
-                    if (Projectile.position.Y < Fenetre.Top)
-                    {
-                        Projectile.position.Y = Gentil.position.Y + Gentil.sprite.Height;
-                        Projectile.position.X = Gentil.position.X;
-                    }
-                }
-                else
-                {
-                    Projectile.position.X = -700;
-                    Projectile.position.Y = 0;
-                }
 
-            }
-            Projectile.position.Y -= Projectile.vitesse;
+        }
+        public void UpdateProjectile2()
+        {
+
         }
 
+
+        
+
+    
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(Back, Fenetre, Color.White);
+            // TODO: Add your drawing code here
 
-            if (Projectile.Alive == true)
-            {
-                spriteBatch.Draw(Projectile.sprite, Projectile.position, Color.White);
-            }
-
-            for (int i = 0; i < MaxMichant; i++)
-            {
-                {
-                    if (Projectile2[i].Alive == true)
-                    {
-                        spriteBatch.Draw(Projectile2[i].sprite, Projectile2[i].position, Color.White);
-                    }
-                }
-            }
-
-            if (Gentil.Alive == true)
-            {
-                spriteBatch.Draw(Gentil.sprite, Gentil.position, Color.White);
-            }
-            else
-            {
-              spriteBatch.Draw(Explode.sprite, Gentil.position, Color.White);
-
-               spriteBatch.DrawString(font, "Time: " + Convert.ToInt16(tempsFinal).ToString(), new Vector2(100, 100), Color.Black);
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                {
-                    Exit();
-                }
-            }
-
-            for (int i = 0; i < Michant.Length; i++)
-            {
-                if (Michant[i].Alive)
-                {
-                    spriteBatch.Draw(Michant[i].sprite, Michant[i].position, Color.White);
-                }
-            }
-
-
-
-
-            spriteBatch.End();
             base.Draw(gameTime);
-
         }
     }
 }
